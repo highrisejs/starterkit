@@ -1,0 +1,23 @@
+web:
+  image: node:0.10
+  working_dir: /usr/src/app
+  volumes:
+    - .:/usr/src/app
+  command: npm start
+  environment:
+    COOKIE_SECRET: "saehjkl23498sdf&*^asfsdfkjsxclksdfkljbasdf*(&698xvc']"
+  ports:
+    - "3000:3000"
+  links:
+    - mongo:mongo
+    - redis:redis
+
+mongo:
+  image: mongo
+  volumes:
+    - ./data:/data/db
+  ports:
+    - "27018:27017"
+
+redis:
+  image: redis

@@ -1,0 +1,23 @@
+{
+  "name": "starterkit",
+  "version": "0.0.0",
+  "authors": [
+    "Dominik Burgdörfer <db@domachine.de>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "datatables": "~1.10.2",
+    "pace": "~0.5.7",
+    "messenger": "~1.4.1",
+    "font-awesome": "~4.2.0"
+  }
+}
