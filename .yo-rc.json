@@ -2,17 +2,11 @@
   "generator-domachine": {
     "applications": {
       "website": {
-        "scripts": [
-          "index.coffee"
-        ],
         "styles": [
           "index.less"
         ]
       },
       "admin": {
-        "scripts": [
-          "index.coffee"
-        ],
         "styles": [
           "index.less"
         ]

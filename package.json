@@ -4,17 +4,15 @@
   "description": "Simple starter template to go and get a sample site.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bower install --config.interactive=false && NODE_ENV=production npm run build",
-    "start": "NODE_PATH=lib supervisor -i website/client -w .,website,lib server.coffee",
-    "build": "NODE_PATH=lib grunt build",
+    "start": "NODE_PATH=. supervisor -i website/client -w .,website,lib server.coffee",
+    "build": "NODE_ENV=production NODE_PATH=. grunt build",
+    "build-dev": "NODE_PATH=. grunt build",
     "watch": "grunt watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "backbone-model-view": "git://github.com/domachine/backbone-model-view#v0.1.2",
-    "baucis": "^1.0.0-candidate.11",
     "body-parser": "^1.8.4",
     "coffee-script": "^1.8.0",
     "connect-redis": "^2.1.0",
@@ -29,7 +27,6 @@
   },
   "devDependencies": {
     "backbone": "^1.1.2",
-    "brfs": "^1.2.0",
     "browserify-middleware": "^3.0.1",
     "coffeeify": "^0.7.0",
     "grunt": "^0.4.5",
@@ -39,9 +36,7 @@
     "grunt-contrib-imagemin": "^0.8.1",
     "grunt-contrib-less": "^0.11.4",
     "grunt-contrib-watch": "^0.6.1",
-    "page": "^1.3.7",
     "react": "^0.11.2",
-    "superagent": "^0.19.0",
     "supervisor": "^0.6.0"
   }
 }

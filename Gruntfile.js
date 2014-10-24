@@ -1,5 +1,7 @@
 module.exports = function (grunt) {
     'use strict';
+    var browserify = false;
+    var less = false;
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -18,6 +20,8 @@ module.exports = function (grunt) {
                     }
                 };
             for (var app in projectConfig.applications) {
+                if (!projectConfig.applications[app].scripts) return {};
+                browserify = true;
                 config[app] = {
                     files: [{
                             cwd: app + '/client',
@@ -47,6 +51,8 @@ module.exports = function (grunt) {
                     }
                 };
             for (var app in projectConfig.applications) {
+                if (!projectConfig.applications[app].styles) return {};
+                less = true;
                 config[app] = {
                     files: [{
                             cwd: app + '/styles',
@@ -122,22 +128,6 @@ module.exports = function (grunt) {
                         'dest': 'public/font-awesome'
                     }]
             },
-            'octicons': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/octicons/octicons',
-                        'src': ['**/*'],
-                        'dest': 'public/css/octicons'
-                    }]
-            },
-            'datatables': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/datatables/media',
-                        'src': ['**/*'],
-                        'dest': 'public/datatables'
-                    }]
-            },
             'pace': {
                 'files': [{
                         'expand': true,
@@ -148,21 +138,14 @@ module.exports = function (grunt) {
                         ],
                         'dest': 'public/pace'
                     }]
-            },
-            'messenger': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/messenger/build',
-                        'src': ['**/*'],
-                        'dest': 'public/messenger'
-                    }]
             }
         }
     });
-    grunt.registerTask('build', [
-        'browserify',
-        'less',
-        'copy',
-        'imagemin'
-    ]);
+    var buildTask = [
+        'imagemin',
+        'copy'
+    ];
+    if (browserify) buildTask.push('browserify');
+    if (less) buildTask.push('less');
+    grunt.registerTask('build', buildTask);
 };
