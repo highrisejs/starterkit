@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     'use strict';
     var browserify = false;
     var less = false;
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -85,16 +84,6 @@ module.exports = function (grunt) {
             }
             return config;
         }(),
-        imagemin: {
-            'default': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'images',
-                        'src': ['**/*.{png,jpg,gif}'],
-                        'dest': 'public/images'
-                    }]
-            }
-        },
         copy: {
             'jquery': {
                 'files': [{
@@ -142,7 +131,6 @@ module.exports = function (grunt) {
         }
     });
     var buildTask = [
-        'imagemin',
         'copy'
     ];
     if (browserify) buildTask.push('browserify');
