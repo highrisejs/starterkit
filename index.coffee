@@ -55,4 +55,19 @@ project.use passport.session()
 project.use require('./website')
 project.use require('./admin')
 project.use require('./api')
+
+# Serve browserify bundles.
+if project.get('env') is 'development'
+  project.get /^\/assets\/js\/([a-z0-9]+)\/(.+)$/, (req, res, next) ->
+    middleware = require('browserify-middleware')
+
+    # Construct the coffee source path.
+    coffeePath = req.params[1].replace(/\.js$/, '.coffee')
+    fn = middleware(
+      "#{__dirname}/#{req.params[0]}/client/#{coffeePath}"
+      transform: ['coffeeify']
+      extensions: ['.coffee']
+    )
+    fn req, res, next
+
 project.use '/assets', serve("#{__dirname}/public")

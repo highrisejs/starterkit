@@ -19,7 +19,7 @@ module.exports = function (grunt) {
                     }
                 };
             for (var app in projectConfig.applications) {
-                if (!projectConfig.applications[app].scripts) return {};
+                if (!projectConfig.applications[app].scripts) continue;
                 browserify = true;
                 config[app] = {
                     files: [{
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                     }
                 };
             for (var app in projectConfig.applications) {
-                if (!projectConfig.applications[app].styles) return {};
+                if (!projectConfig.applications[app].styles) continue;
                 less = true;
                 config[app] = {
                     files: [{
