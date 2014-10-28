@@ -44,7 +44,7 @@ module.exports = function (grunt) {
                         paths: [
                             'styles',
                             'lib',
-                            'bower_components'
+                            'public/components'
                         ],
                         compress: process.env.NODE_ENV === 'production'
                     }
@@ -85,48 +85,15 @@ module.exports = function (grunt) {
             return config;
         }(),
         copy: {
-            'jquery': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/jquery/dist',
-                        'src': ['**/*'],
-                        'dest': 'public/js'
-                    }]
-            },
             'bootstrap': {
                 'files': [
                     {
                         'expand': true,
-                        'cwd': 'bower_components/bootstrap/dist/fonts',
+                        'cwd': 'public/components/bootstrap/dist/fonts',
                         'src': ['**/*'],
                         'dest': 'public/css/fonts'
-                    },
-                    {
-                        'expand': true,
-                        'cwd': 'bower_components/bootstrap/dist/js',
-                        'src': ['**/*'],
-                        'dest': 'public/js'
                     }
                 ]
-            },
-            'fontAwesome': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/font-awesome',
-                        'src': ['css/**/*', 'fonts/**/*'],
-                        'dest': 'public/font-awesome'
-                    }]
-            },
-            'pace': {
-                'files': [{
-                        'expand': true,
-                        'cwd': 'bower_components/pace',
-                        'src': [
-                          'pace.min.js',
-                          'themes/*.css'
-                        ],
-                        'dest': 'public/pace'
-                    }]
             }
         }
     });
