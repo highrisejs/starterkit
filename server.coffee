@@ -1,3 +1,10 @@
+
+# Integrate with nodetime.
+if process.env.NODETIME_ACCOUNT_KEY
+  require('nodetime').profile
+    accountKey: process.env.NODETIME_ACCOUNT_KEY
+    appName: 'snuffy'
+
 log = require('util').log
 http = require('http')
 

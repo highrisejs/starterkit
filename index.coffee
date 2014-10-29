@@ -16,9 +16,17 @@ User = mongoose.model('User')
 project = module.exports = express()
 project.set 'view engine', 'jade'
 project.set 'cookie secret', process.env.COOKIE_SECRET || 'keyboard cat'
+
+if process.env.REDISCLOUD_URL
+  project.set 'session store options',
+    client: require('redis-url').connect(process.env.REDISCLOUD_URL)
+else
+  project.set 'session store options',
+    host: process.env.REDIS_PORT_6379_TCP_ADDR
+    port: process.env.REDIS_PORT_6379_TCP_PORT
+
 project.set 'session store', new RedisStore(
-  host: process.env.REDIS_PORT_6379_TCP_ADDR
-  port: process.env.REDIS_PORT_6379_TCP_PORT
+  project.get 'session store options'
 )
 
 ###
@@ -42,10 +50,7 @@ project.use bodyParser.urlencoded(extended: true)
 project.use cookieParser(process.env.COOKIE_SECRET || 'keyboard cat')
 project.use session(
   secret: process.env.COOKIE_SECRET || 'keyboard cat'
-  store: new RedisStore(
-    host: process.env.REDIS_PORT_6379_TCP_ADDR
-    port: process.env.REDIS_PORT_6379_TCP_PORT
-  )
+  store: project.get('session store')
   saveUninitialized: true
   resave: true
 )
