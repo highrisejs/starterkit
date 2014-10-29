@@ -27,11 +27,7 @@ module.exports = function (grunt) {
                             expand: true,
                             src: projectConfig.applications[app].scripts,
                             dest: 'public/js/' + app,
-                            ext: '.js',
-                            rename: function rename(dest, src) {
-                                var path = require('path');
-                                return path.join(dest, src.replace(/\//g, '_'));
-                            }
+                            ext: '.js'
                         }]
                 };
             }
