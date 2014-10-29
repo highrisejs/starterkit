@@ -5,6 +5,7 @@ mongoose = require('mongoose')
 
 mongooseConnected = false
 mongooseUrl = process.env.MONGOHQ_URL
+port = process.env.PORT or 3000
 
 unless mongooseUrl
     log '[TODO] adjust your database and remove this warning!'
@@ -30,5 +31,5 @@ server = http
       run()
 
   # Listen on port 3000 which is brought outside of docker.
-  .listen 3000, ->
+  .listen port, ->
     log 'server listening'
