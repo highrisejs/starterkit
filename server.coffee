@@ -15,11 +15,11 @@ mongooseUrl = process.env.MONGOHQ_URL
 port = process.env.PORT or 3000
 
 unless mongooseUrl
-    log '[TODO] adjust your database and remove this warning!'
+  log '[TODO] adjust your database and remove this warning!'
 
-    # Construct connection url from docker environment variables.
-    mongooseUrl = """mongodb://#{process.env.MONGO_PORT_27017_TCP_ADDR}:\
-      #{process.env.MONGO_PORT_27017_TCP_PORT}/starterkit"""
+  # Construct connection url from docker environment variables.
+  mongooseUrl = """mongodb://#{process.env.MONGO_PORT_27017_TCP_ADDR}:\
+    #{process.env.MONGO_PORT_27017_TCP_PORT}/starterkit"""
 
 server = http
   .createServer (req, res) ->

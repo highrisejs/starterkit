@@ -18,8 +18,12 @@ project.set 'view engine', 'jade'
 project.set 'cookie secret', process.env.COOKIE_SECRET || 'keyboard cat'
 
 if process.env.REDISCLOUD_URL
+  redisUrl = require('url').parse(process.env.REDISCLOUD_URL)
+  redisAuth = redisUrl.auth.split(':')
   project.set 'session store options',
-    client: require('redis-url').connect(process.env.REDISCLOUD_URL)
+    host: redisUrl.hostname
+    port: redisUrl.port
+    pass: redisAuth[1]
 else
   project.set 'session store options',
     host: process.env.REDIS_PORT_6379_TCP_ADDR
