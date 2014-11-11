@@ -61,6 +61,15 @@ project.use session(
 project.use passport.initialize()
 project.use passport.session()
 
+project.use require('method-override')('_method')
+
+project.use (req, res, next) ->
+
+  # Set template rootpath.
+  res.locals.basedir = "#{__dirname}"
+  res.locals.React = require('react')
+  next()
+
 project.use require('./website')
 project.use require('./admin')
 project.use require('./api')

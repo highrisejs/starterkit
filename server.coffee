@@ -3,19 +3,18 @@
 if process.env.NODETIME_ACCOUNT_KEY
   require('nodetime').profile
     accountKey: process.env.NODETIME_ACCOUNT_KEY
-    appName: 'snuffy'
+    appName: require('./package').name
 
 log = require('util').log
 http = require('http')
 
 mongoose = require('mongoose')
 
-mongooseConnected = false
+project = null
 mongooseUrl = process.env.MONGOHQ_URL
 port = process.env.PORT or 3000
 
 unless mongooseUrl
-  log '[TODO] adjust your database and remove this warning!'
 
   # Construct connection url from docker environment variables.
   mongooseUrl = """mongodb://#{process.env.MONGO_PORT_27017_TCP_ADDR}:\
@@ -24,17 +23,19 @@ unless mongooseUrl
 server = http
   .createServer (req, res) ->
     run = =>
-      require('./index').call this, req, res
+      project.call this, req, res
 
     # Boot the application directly if mongoose is already connected.
-    return run() if mongooseConnected
+    return run() if project
 
     # Attempt to connect.
     mongoose.connect mongooseUrl, (err) ->
       return res.end('Failed to connect to database!') if err
-      app = require('./index')
-      mongooseConnected = true
-      app.set 'server', server
+      project = require('./index')
+      project.set 'server', server
+
+      # Integrate with newrelic.
+      require('newrelic') if process.env.NEW_RELIC_LICENSE_KEY
       run()
 
   # Listen on port 3000 which is brought outside of docker.
