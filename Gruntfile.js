@@ -64,22 +64,6 @@ module.exports = function (grunt) {
             }
             return config;
         }(),
-        watch: function () {
-            var projectConfig = require('./.yo-rc')['generator-domachine'];
-            var config = {
-                    css: {
-                        files: ['styles/**/*'],
-                        tasks: ['less']
-                    }
-                };
-            for (var app in projectConfig.applications) {
-                config[app + 'Css'] = {
-                    files: [app + '/styles/**/*'],
-                    tasks: ['less:' + app]
-                };
-            }
-            return config;
-        }(),
         copy: {
             'bootstrap': {
                 'files': [

@@ -7,7 +7,6 @@
     "start": "NODE_PATH=. supervisor -i website/client -w .,website,lib server.coffee",
     "build": "NODE_ENV=production NODE_PATH=. grunt build",
     "build-dev": "NODE_PATH=. grunt build",
-    "watch": "grunt watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
