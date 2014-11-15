@@ -1,0 +1,24 @@
+extends base
+
+block content
+  .container
+    .jumbotron
+      h1 Register yourself to get access to the betaproject.
+    .row
+      .col-md-offset-4.col-md-4
+        form.form-horizontal(method='POST' action='#{req.baseUrl}/register')
+          .form-group
+            label.col-sm-3.control-label(for='name') Name
+            .col-sm-9
+              input.form-control(type='text' name='name' placeholder='Name')
+          .form-group
+            label.col-sm-3.control-label(for='email') Email
+            .col-sm-9
+              input.form-control(type='email' name='email' placeholder='Email')
+          .form-group
+            label.col-sm-3.control-label(for='password') Password
+            .col-sm-9
+              input.form-control(type='password' name='password' placeholder='Password')
+          .form-group
+            .col-sm-offset-3.col-sm-9
+              button.btn.btn-primary(type='submit') Sign up

@@ -67,15 +67,36 @@ project.use (req, res, next) ->
 
   # Set template rootpath.
   res.locals.basedir = "#{__dirname}"
-  res.locals.React = require('react')
+  res.locals.req = req
   next()
 
-project.use require('./website')
-project.use require('./admin')
-project.use require('./api')
+###
+Make the project only accessible by authorized demo users.
+###
+if project.get('env') is 'production'
+  project.all /^\/([^\/]*)\/?.*/, (req, res, done) ->
+    return done() if req.params[0] in ['assets', 'auth', 'register']
+    return res.redirect(307, '/auth') unless req.isAuthenticated()
+    done()
 
 # Serve browserify bundles.
 if project.get('env') is 'development'
+  less = require('less-middleware')
+  project.use '/assets/css', less(__dirname,
+    preprocess:
+      path: (pathname, req) ->
+        match = req.url.match(/^\/([^\/]+)\/(.+)$/)
+        return pathname unless match
+        path = "#{__dirname}/#{match[1]}/styles/#{match[2]}"
+        path.replace(/\.css$/, '.less')
+    dest: 'public/css'
+    parser:
+      paths: [
+        'styles'
+        'lib'
+        'public/components'
+      ]
+  )
   project.get /^\/assets\/js\/([a-z0-9]+)\/(.+)$/, (req, res, next) ->
     middleware = require('browserify-middleware')
 
@@ -89,3 +110,6 @@ if project.get('env') is 'development'
     fn req, res, next
 
 project.use '/assets', serve("#{__dirname}/public")
+
+# Catchall.
+project.use require('./website')
