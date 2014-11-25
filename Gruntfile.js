@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     'use strict';
     var browserify = false;
     var less = false;
-    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-browserify');
@@ -63,23 +62,9 @@ module.exports = function (grunt) {
                 };
             }
             return config;
-        }(),
-        copy: {
-            'bootstrap': {
-                'files': [
-                    {
-                        'expand': true,
-                        'cwd': 'public/components/bootstrap/dist/fonts',
-                        'src': ['**/*'],
-                        'dest': 'public/css/fonts'
-                    }
-                ]
-            }
-        }
+        }()
     });
-    var buildTask = [
-        'copy'
-    ];
+    var buildTask = [];
     if (browserify) buildTask.push('browserify');
     if (less) buildTask.push('less');
     grunt.registerTask('build', buildTask);
