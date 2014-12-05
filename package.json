@@ -4,7 +4,7 @@
   "description": "Simple starter template to go and get a sample site.",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=. supervisor -i website/client -w .,website,lib server.coffee",
+    "start": "NODE_PATH=. node-dev server.coffee",
     "build": "NODE_ENV=production NODE_PATH=. grunt build",
     "build-dev": "NODE_PATH=. grunt build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,6 +39,6 @@
     "grunt-contrib-watch": "^0.6.1",
     "less-middleware": "^1.0.4",
     "react": "^0.11.2",
-    "supervisor": "^0.6.0"
+    "node-dev": "^2.6.0"
   }
 }
