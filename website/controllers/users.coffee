@@ -21,6 +21,6 @@ exports.create = (req, res, done) ->
           next null, user
   ], (err) ->
     return done(err) if err
-    req.session.registered = true
+    req.flash 'success', 'Account successfully registered!'
     res.redirect "#{req.baseUrl}/auth"
   )

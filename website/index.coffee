@@ -4,7 +4,6 @@ express = require('express')
 controllers = require('./controllers')
 
 app = module.exports = express()
-app.set 'views', "#{__dirname}/views"
 
 app.get '/', (req, res) ->
   res.render 'index'

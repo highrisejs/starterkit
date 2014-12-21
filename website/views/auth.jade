@@ -1,15 +1,14 @@
 extends base
 
+include /templates/includes/flash
+
 block content
   .container
     .jumbotron
       h1 Login to see the project.
     .row
       .col-md-offset-4.col-md-4
-        if registered
-          .alert.alert-success
-            | You&apos;r account was authorized!  Now login with your
-            | chosen credentials.
+        +flash
         if fail
           .alert.alert-danger
             | The login process failed. Maybe you provided the wrong credentials?

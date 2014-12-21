@@ -8,6 +8,8 @@ bodyParser = require('body-parser')
 passport = require('passport')
 RedisStore = require('connect-redis')(session)
 
+dome = require 'lib/dome'
+
 # Load all the models of the applications.
 require './api/models'
 
@@ -63,13 +65,6 @@ project.use passport.session()
 
 project.use require('method-override')('_method')
 
-project.use (req, res, next) ->
-
-  # Set template rootpath.
-  res.locals.basedir = "#{__dirname}"
-  res.locals.req = req
-  next()
-
 ###
 Make the project only accessible by authorized demo users.
 ###
@@ -79,37 +74,6 @@ if project.get('env') is 'production'
     return res.redirect(307, '/auth') unless req.isAuthenticated()
     done()
 
-# Serve browserify bundles.
-if project.get('env') is 'development'
-  less = require('less-middleware')
-  project.use '/assets/css', less(__dirname,
-    preprocess:
-      path: (pathname, req) ->
-        match = req.url.match(/^\/([^\/]+)\/(.+)$/)
-        return pathname unless match
-        path = "#{__dirname}/#{match[1]}/styles/#{match[2]}"
-        path.replace(/\.css$/, '.less')
-    dest: 'public/css'
-    parser:
-      paths: [
-        'styles'
-        'lib'
-        'public/components'
-      ]
-  )
-  project.get /^\/assets\/js\/([a-z0-9]+)\/(.+)$/, (req, res, next) ->
-    middleware = require('browserify-middleware')
-
-    # Construct the coffee source path.
-    coffeePath = req.params[1].replace(/\.js$/, '.coffee')
-    fn = middleware(
-      "#{__dirname}/#{req.params[0]}/client/#{coffeePath}"
-      transform: ['coffeeify']
-      extensions: ['.coffee']
-    )
-    fn req, res, next
-
-project.use '/assets', serve("#{__dirname}/public")
-
-# Catchall.
-project.use require('./website')
+project.use require('lib/flash')
+dome project,
+  apps: ['website', ['inplace']]
