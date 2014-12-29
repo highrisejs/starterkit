@@ -1,21 +1,21 @@
 
 express = require('express')
 mongoose = require('mongoose')
-serve = require('serve-static')
 cookieParser = require('cookie-parser')
 session = require('express-session')
 bodyParser = require('body-parser')
 passport = require('passport')
 RedisStore = require('connect-redis')(session)
 
-dome = require 'lib/dome'
+Project = require('lib/project')
 
 # Load all the models of the applications.
 require './api/models'
 
 User = mongoose.model('User')
 
-project = module.exports = express()
+project = module.exports = Project()
+
 project.set 'view engine', 'jade'
 project.set 'cookie secret', process.env.COOKIE_SECRET || 'keyboard cat'
 
@@ -75,5 +75,16 @@ if project.get('env') is 'production'
     done()
 
 project.use require('lib/flash')
-dome project,
-  apps: ['website', ['inplace']]
+
+project.use (req, res, next) ->
+
+  # Set template rootpath.
+  res.locals.basedir = process.cwd()
+  res.locals.req = req
+  next()
+
+# Load all applications.
+project.boot [
+  ['assets']
+  'website'
+]
