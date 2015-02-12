@@ -1,3 +1,8 @@
+mixin flash()
+  each f in flash
+    .alert(class='alert-#{f.type}')
+      | #{f.message}
+
 doctype html
 html(lang="de")
   head

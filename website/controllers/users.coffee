@@ -1,26 +1,37 @@
 async = require('async')
 mongoose = require('mongoose')
 
+Resource = require('express-resource-architect')
+
 User = mongoose.model('User')
+m = Resource.middleware(User)
 
-exports.create = (req, res, done) ->
-  async.waterfall([
-    (next) ->
-      User.findOne {email: req.body.email, hash: $exists: false}, (err, user) ->
-        return next(err) if err
-        return done() unless user
-        next null, user
+exports.new = [
+  m.new()
+  m.view 'register'
+]
 
-    (user, next) ->
-      user.remove (err) ->
-        return next(err) if err
-        password = req.body.password
-        delete req.body.password
-        User.register req.body, password, (err, user) ->
-          return next(err) if err
-          next null, user
-  ], (err) ->
-    return done(err) if err
-    req.flash 'success', 'Account successfully registered!'
-    res.redirect "#{req.baseUrl}/auth"
-  )
+exports.create = [
+  (req, res, done) ->
+    User.findOne {email: req.body.email, hash: $exists: false}, (err, user) ->
+      return next(err) if err
+      return done() unless user
+      res.locals.user = user
+      user.name = req.body.name
+      user.password = req.body.password
+      user.passwordConfirmation = req.body.passwordConfirmation
+      done()
+
+  m.save()
+
+  (req, res, done) ->
+    unless res.locals.user
+      req.flash 'danger', "This email isn't authorized!"
+      return res.redirect('/register')
+    return res.render('register') if res.locals.user.errors
+    req.flash 'success', '''The registration was successful! Now login using
+      your chosen credentials.'''
+    done()
+
+  m.redirect '/auth'
+]

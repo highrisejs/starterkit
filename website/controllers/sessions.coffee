@@ -1,9 +1,11 @@
 passport = require('passport')
 
-exports.show = (req, res, done) ->
+exports.new = (req, res, done) ->
   fail = if req.query.fail then true else false
-  res.render 'auth',
-    fail: fail
+  if fail
+    req.flash 'danger', 'The authorization wasn\'t successful!'
+  delete req.session.registered
+  res.render 'auth'
 
 exports.create = (req, res, done) ->
   middleware = passport.authenticate('local',
