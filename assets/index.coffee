@@ -21,7 +21,7 @@ module.exports = ->
   )
 
   app.use '/assets', browserify(process.cwd(),
-    transform: ['coffeeify', 'jadeify']
+    transform: ['coffeeify']
     extensions: ['.coffee']
     grep: /^\/[a-z0-9_]+\/client\/[a-z0-9_]+\.(?:coffee)$/
   )
