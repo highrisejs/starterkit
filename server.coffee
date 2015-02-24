@@ -12,6 +12,7 @@ mongoose = require('mongoose')
 
 project = null
 mongooseUrl = process.env.MONGOHQ_URL
+mongooseUrl = process.env.MONGOLAB_URI unless mongooseUrl?
 port = process.env.PORT or 3000
 
 unless mongooseUrl

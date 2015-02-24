@@ -1,4 +1,3 @@
-async = require('async')
 mongoose = require('mongoose')
 
 Resource = require('express-resource-architect')
