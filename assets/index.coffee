@@ -1,7 +1,6 @@
 express = require('express')
 less = require('less-middleware')
 browserify = require('browserify-middleware')
-serve = require('serve-static')
 
 module.exports = ->
   app = express()
@@ -26,6 +25,6 @@ module.exports = ->
     grep: /^\/[a-z0-9_]+\/client\/[a-z0-9_]+\.(?:coffee)$/
   )
 
-  app.use '/assets', serve("#{process.cwd()}/public")
+  app.use '/assets', express.static("#{process.cwd()}/public")
 
   app
