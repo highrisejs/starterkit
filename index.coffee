@@ -85,6 +85,6 @@ project.use (req, res, next) ->
 
 # Load all applications.
 project.boot [
-  ['assets']
+  ['highrisejs-assets']
   'website'
 ]
